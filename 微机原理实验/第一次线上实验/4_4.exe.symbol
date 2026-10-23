@@ -1,0 +1,27 @@
+< THE SYMBOL TABLE >  4_4.exe  --  emu8086 assembler version: 4.08 
+===================================================================================================
+Name                     	Offset    	Size      	Type      	Segment   
+===================================================================================================
+DATA                     	00000     	-5        	SEGMENT   	(ITSELF)  
+YEAR                     	00000     	2         	VAR       	DATA      
+MONTH                    	00002     	1         	VAR       	DATA      
+DAY                      	00003     	1         	VAR       	DATA      
+HOUR                     	00004     	1         	VAR       	DATA      
+MINUTE                   	00005     	1         	VAR       	DATA      
+SECOND                   	00006     	1         	VAR       	DATA      
+TIME1                    	00007     	1         	VAR       	DATA      
+TIME2                    	0001D     	1         	VAR       	DATA      
+_LOCATION_COUNTER__N1_LA 	00026     	-1        	LABEL     	DATA      
+_LOCATION_COUNTER__N2_LB 	00026     	-1        	LABEL     	DATA      
+NUM                      	00026     	1         	VAR       	DATA      
+CODE                     	00003     	-5        	SEGMENT   	(ITSELF)  
+START                    	00000     	-1        	LABEL     	CODE      
+BEGIN                    	00007     	-1        	LABEL     	CODE      
+GET_SYSTEM_TIME1         	00015     	-1        	NEAR      	CODE      
+GET_SYSTEM_TIME2         	0002D     	-1        	NEAR      	CODE      
+SETSHOW1                 	00045     	-1        	NEAR      	CODE      
+SETSHOW2                 	00050     	-1        	NEAR      	CODE      
+===================================================================================================
+[ 2025/6/13  --  13:56:06 ] 
+< END >
+ 

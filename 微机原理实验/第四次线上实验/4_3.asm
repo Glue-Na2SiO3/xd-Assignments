@@ -1,0 +1,113 @@
+                                                                    DATA SEGMENT
+    STR1 DB "NUM OF ALPHABET :$"
+    STR2 DB "NUM OF NUMBER :$"
+    STR3 DB "NUM OF OTHERS :$"
+    ALPH DB 0
+    NUM DB 0
+    OTHERS DB 0
+ENDS
+
+CODE SEGMENT
+    ASSUME CS:CODE, DS:DATA
+
+START:
+    MOV AX, DATA
+    MOV DS, AX
+    MOV BX, 0
+    MOV SI, OFFSET ALPH
+
+INPUT:
+    MOV AH, 01H
+    INT 21H
+    CMP AL, 0DH
+    JE PRINT
+    CMP AL, 30H
+    JB ADDOTHERS
+    CMP AL, 3AH
+    JB ADDNUM
+    CMP AL, 41H
+    JB ADDOTHERS
+    CMP AL, 5BH
+    JB ADDALPH
+    CMP AL, 61H
+    JB ADDOTHERS
+    CMP AL, 7BH
+    JB ADDALPH
+    JMP ADDOTHERS
+
+PRINT:
+    CALL CALF
+    LEA DX, STR1
+    MOV AH, 09H
+    INT 21H
+    CALL PRINT1
+    INC SI
+    CALL CALF
+
+    LEA DX, STR2
+    MOV AH, 09H
+    INT 21H
+    CALL PRINT1
+    INC SI
+    CALL CALF
+
+    LEA DX, STR3
+    MOV AH, 09H
+    INT 21H
+    CALL PRINT1
+    MOV AX, 00H
+    INT 21H
+
+PRINT1:
+    MOV CX, 0
+    MOV DX, 0
+    MOV DI, 0AH
+    MOV AL, [SI]
+    MOV AH, 00H
+ToTen:
+    DIV DI
+    PUSH DX
+    INC CX
+    CMP AX, 0
+    JE NEXT1
+    CWD
+    JMP ToTen
+
+NEXT1:
+    POP DX
+    ADD DL, 30H
+    MOV AH, 02H
+    INT 21H
+    LOOP NEXT1
+
+RET
+
+ADDALPH:
+    MOV DL, [SI]
+    INC DL
+    MOV [SI], DL
+    JMP INPUT
+
+ADDNUM:
+    MOV DL, [SI+1]
+    INC DL
+    MOV [SI+1], DL
+    JMP INPUT
+
+ADDOTHERS:
+    MOV DL, [SI+2]
+    INC DL
+    MOV [SI+2], DL
+    JMP INPUT
+
+CALF:
+    MOV DL, 0AH
+    MOV AH, 02H
+    INT 21H
+    MOV DL, 0DH
+    MOV AH, 02H
+    INT 21H
+RET
+
+ENDS
+END START

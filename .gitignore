@@ -1,0 +1,48 @@
+# === Media (too large for GitHub) ===
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.flac
+*.mp3
+*.wav
+*.ts
+*.m4a
+
+# === Archives ===
+*.zip
+*.rar
+*.7z
+*.tar
+*.gz
+*.bz2
+
+# === Executables & compiled binaries ===
+*.exe
+*.dll
+*.o
+*.obj
+*.pyc
+*.class
+*.jar
+
+# === Installed software ===
+PacketTracer6.2/
+QtSpim/
+EMU/
+
+# === Premiere Pro caches & previews ===
+Adobe Premiere Pro Auto-Save/
+*.prproj.bak*
+未命名.PRV/
+
+# === Files exceeding GitHub 100MB hard limit ===
+创业基础/创业基础第1组.pptx
+创业基础/附件2-路演汇报模板(1) - 副本.pptx
+计算机网络/计网实验/实验六 RIP实验/实验6 RIP实验 实验步骤.pdf
+
+# === OS / editor junk ===
+Thumbs.db
+Desktop.ini
+.DS_Store
+~$*

@@ -1,0 +1,145 @@
+EMU8086 GENERATED LISTING. MACHINE CODE <- SOURCE.
+ 
+4_4.exe -- emu8086 assembler version: 4.08  
+ 
+[ 2025/6/13  --  13:56:06 ] 
+ 
+===================================================================================================
+[LINE]     LOC: MACHINE CODE                          SOURCE
+===================================================================================================
+ 
+[   1]        :                                       DATA SEGMENT
+[   2]        :                                       ; 定义时钟格式信息变量
+[   3]    0000: 00 00                                 YEAR DW 0
+[   4]    0002: 00                                    MONTH DB 0
+[   5]    0003: 00                                    DAY DB 0
+[   6]    0004: 00                                    HOUR DB 0
+[   7]    0005: 00                                    MINUTE DB 0
+[   8]    0006: 00                                    SECOND DB 0
+[   9]    0007: 32 30 32 35 79 65 61 72 20 34 6D 6F   TIME1 DB "2025year 4month 29day$"
+                6E 74 68 20 32 39 64 61 79 24       
+[  10]    001D: 31 39 3A 33 30 3A 34 35 24            TIME2 DB "19:30:45$"
+[  11]    0026:                                       LEN1 EQU $-TIME1
+[  12]    0026:                                       LEN2 EQU $-TIME2
+[  13]    0026: 00                                    NUM DB 0
+[  14]        :                                       ENDS
+[  15]        :                                       
+[  16]        :                                       CODE SEGMENT
+[  17]    0030:                                       START:
+[  18]    0030: B8 00 00                              MOV AX, DATA
+[  19]    0033: 8E D8                                 MOV DS, AX
+[  20]    0035: 8E C0                                 MOV ES, AX
+[  21]        :                                       
+[  22]    0037:                                       BEGIN:
+[  23]    0037: E8 3B 00                              CALL SETSHOW1
+[  24]    003A: E8 08 00                              CALL GET_SYSTEM_TIME1
+[  25]    003D: E8 40 00                              CALL SETSHOW2
+[  26]    0040: E8 1A 00                              CALL GET_SYSTEM_TIME2
+[  27]    0043: EB F2                                 JMP BEGIN
+[  28]        :                                       
+[  29]    0045:                                       GET_SYSTEM_TIME1 PROC
+[  30]        :                                       ; 获取系统日期
+[  31]    0045: B4 2A                                 MOV AH, 2AH
+[  32]    0047: CD 21                                 INT 21H
+[  33]    0049: 89 0E 00 00                           MOV YEAR, CX
+[  34]    004D: 88 36 02 00                           MOV MONTH, DH
+[  35]    0051: 88 16 03 00                           MOV DAY, DL
+[  36]        :                                       ; 将年、月、日转换为字符串并存储在TIME1
+[  37]        :                                       ; ...
+[  38]        :                                       ; 输出系统日期
+[  39]    0055: BA 07 00                              LEA DX, TIME1
+[  40]    0058: B4 09                                 MOV AH, 9
+[  41]    005A: CD 21                                 INT 21H
+[  42]    005C: C3                                    RET
+[  43]        :                                       GET_SYSTEM_TIME1 ENDP
+[  44]        :                                       
+[  45]    005D:                                       GET_SYSTEM_TIME2 PROC
+[  46]        :                                       ; 获取系统时间
+[  47]    005D: B4 2C                                 MOV AH, 2CH
+[  48]    005F: CD 21                                 INT 21H
+[  49]    0061: 88 2E 04 00                           MOV HOUR, CH
+[  50]    0065: 88 0E 05 00                           MOV MINUTE, CL
+[  51]    0069: 88 36 06 00                           MOV SECOND, DH
+[  52]        :                                       ; 将时、分、秒转换为字符串并存储在TIME2
+[  53]        :                                       ; ...
+[  54]        :                                       ; 输出系统时间
+[  55]    006D: BA 1D 00                              LEA DX, TIME2
+[  56]    0070: B4 09                                 MOV AH, 9
+[  57]    0072: CD 21                                 INT 21H
+[  58]    0074: C3                                    RET
+[  59]        :                                       GET_SYSTEM_TIME2 ENDP
+[  60]        :                                       
+[  61]    0075:                                       SETSHOW1 PROC
+[  62]        :                                       ; 设置光标位置以显示日期
+[  63]    0075: B6 0C                                 MOV DH, 12
+[  64]    0077: B2 1D                                 MOV DL, 29
+[  65]    0079: B7 00                                 MOV BH, 0
+[  66]    007B: B4 02                                 MOV AH, 2
+[  67]    007D: CD 10                                 INT 10H
+[  68]    007F: C3                                    RET
+[  69]        :                                       SETSHOW1 ENDP
+[  70]        :                                       
+[  71]    0080:                                       SETSHOW2 PROC
+[  72]        :                                       ; 设置光标位置以显示时间
+[  73]    0080: B6 0D                                 MOV DH, 13
+[  74]    0082: B2 23                                 MOV DL, 35
+[  75]    0084: B7 00                                 MOV BH, 0
+[  76]    0086: B4 02                                 MOV AH, 2
+[  77]    0088: CD 10                                 INT 10H
+[  78]    008A: C3                                    RET
+[  79]        :                                       SETSHOW2 ENDP
+[  80]        :                                       
+[  81]    008B: B8 00 4C                              MOV AX, 4C00H
+[  82]    008E: CD 21                                 INT 21H
+[  83]        :                                       ENDS
+[  84]        :                                       END START
+[  85]        :                                       
+[  86]        :                                       
+[  87]        :                                       
+[  88]        :                                       
+[  89]        :                                       
+ 
+===================================================================================================
+ 
+EXE HEADER - bytes from 0000 to 01FF inclusive.
+
+0000: 4D      -   exe signature (M)
+0001: 5A      -   exe signature (Z)
+0002: 90      -   bytes on last page (l.byte)
+0003: 00      -   bytes on last page (h.byte)
+0004: 02      -   512 byte pages in file (l.byte)
+0005: 00      -   512 byte pages in file (h.byte)
+0006: 01      -   relocations (l.byte)
+0007: 00      -   relocations (h.byte)
+0008: 20      -   paragraphs in header (l.byte)
+0009: 00      -   paragraphs in header (h.byte)
+000A: 00      -   minimum memory (l.byte)
+000B: 00      -   minimum memory (h.byte)
+000C: FF      -   maximum memory (l.byte)
+000D: FF      -   maximum memory (h.byte)
+000E: 00      -   SS - stack segment (l.byte)
+000F: 00      -   SS - stack segment (h.byte)
+0010: 00      -   SP - stack pointer (l.byte)
+0011: 00      -   SP - stack pointer (h.byte)
+0012: C6      -   check sum (l.byte)
+0013: 1A      -   check sum (h.byte)
+0014: 00      -   IP - instruction pointer (l.byte)
+0015: 00      -   IP - instruction pointer (h.byte)
+0016: 03      -   CS - code segment (l.byte)
+0017: 00      -   CS - code segment (h.byte)
+0018: 1E      -   relocation table adress (l.byte)
+0019: 00      -   relocation table adress (h.byte)
+001A: 00      -   overlay number (l.byte)
+001B: 00      -   overlay number (h.byte)
+001C: 01      -   signature (l.byte)
+001D: 00      -   signature (h.byte)
+001E: 01      -   relocation table - offset inside segment (l.byte)
+001F: 00      -   relocation table - offset inside segment (h.byte)
+0020: 03      -   relocation table - segment anchor (l.byte)
+0021: 00      -   relocation table - segment anchor (h.byte)
+0022 to 01FF  -   reserved relocation area  (00) 
+
+
+
+
+===================================================================================================

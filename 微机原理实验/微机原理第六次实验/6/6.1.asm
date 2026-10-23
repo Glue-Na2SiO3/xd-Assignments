@@ -1,0 +1,40 @@
+IO0 EQU 0168H
+CODE SEGMENT 
+ASSUME CS:CODE
+START:
+	MOV DX,IO0    
+    MOV AL,0FEH
+    OUT DX,AL
+    MOV CX,0E000H
+    LOOP $   
+    MOV AL,0FDH
+    OUT DX,AL
+    MOV CX,0E000H
+    LOOP $   
+    MOV AL,0FBH
+    OUT DX,AL
+    MOV CX,0E000H
+    LOOP $    
+    MOV AL,0F7H 
+    OUT DX,AL
+    MOV CX,0E000H
+    LOOP $    
+    MOV AL,0EFH
+    OUT DX,AL
+    MOV CX,0E000H
+    LOOP $    
+    MOV AL,0DFH
+    OUT DX,AL
+    MOV CX,0E000H
+    LOOP $        
+    MOV AL,0BFH
+    OUT DX,AL
+    MOV CX,0E000H
+    LOOP $        
+    MOV AL,07FH
+    OUT DX,AL
+    MOV CX,0E000H
+    LOOP $   
+    JMP START
+CODE ENDS
+    END START

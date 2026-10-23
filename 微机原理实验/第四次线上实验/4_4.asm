@@ -1,0 +1,87 @@
+DATA SEGMENT
+    ; 定义时钟格式信息变量
+    YEAR DW 0
+    MONTH DB 0
+    DAY DB 0
+    HOUR DB 0
+    MINUTE DB 0
+    SECOND DB 0
+    TIME1 DB "2024year 5month 18day$"
+    TIME2 DB "20:10:10$"
+    LEN1 EQU $-TIME1
+    LEN2 EQU $-TIME2
+    NUM DB 0
+ENDS
+
+CODE SEGMENT
+START:
+    MOV AX, DATA
+    MOV DS, AX
+    MOV ES, AX
+
+BEGIN:
+    CALL SETSHOW1
+    CALL GET_SYSTEM_TIME1
+    CALL SETSHOW2
+    CALL GET_SYSTEM_TIME2
+    JMP BEGIN
+
+GET_SYSTEM_TIME1 PROC
+    ; 获取系统日期
+    MOV AH, 2AH
+    INT 21H
+    MOV YEAR, CX
+    MOV MONTH, DH
+    MOV DAY, DL
+    ; 将年、月、日转换为字符串并存储在TIME1
+    ; ...
+    ; 输出系统日期
+    LEA DX, TIME1
+    MOV AH, 9
+    INT 21H
+    RET
+GET_SYSTEM_TIME1 ENDP
+
+GET_SYSTEM_TIME2 PROC
+    ; 获取系统时间
+    MOV AH, 2CH
+    INT 21H
+    MOV HOUR, CH
+    MOV MINUTE, CL
+    MOV SECOND, DH
+    ; 将时、分、秒转换为字符串并存储在TIME2
+    ; ...
+    ; 输出系统时间
+    LEA DX, TIME2
+    MOV AH, 9
+    INT 21H
+    RET
+GET_SYSTEM_TIME2 ENDP
+
+SETSHOW1 PROC
+    ; 设置光标位置以显示日期
+    MOV DH, 12
+    MOV DL, 29
+    MOV BH, 0
+    MOV AH, 2
+    INT 10H
+    RET
+SETSHOW1 ENDP
+
+SETSHOW2 PROC
+    ; 设置光标位置以显示时间
+    MOV DH, 13
+    MOV DL, 35
+    MOV BH, 0
+    MOV AH, 2
+    INT 10H
+    RET
+SETSHOW2 ENDP
+
+    MOV AX, 4C00H
+    INT 21H
+ENDS
+END START
+
+
+

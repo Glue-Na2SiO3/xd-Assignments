@@ -1,0 +1,91 @@
+DATA SEGMENT
+    STR1 DB "N should <=8&&>0!$"
+    DATA1 DB 0
+DATA ENDS
+
+START:
+    MOV CX, 0
+    MOV AX, DATA
+    MOV DS, AX
+    MOV SI, OFFSET DATA1
+
+INPUT:
+    MOV AH, 01H
+    INT 21H
+    INC CX
+    CMP AL, 38H
+    JA ERROR
+    MOV [SI], AL
+    INC SI
+    CMP AL, 0DH
+    JNE INPUT
+    CMP CX, 02H
+    JE NEXT
+
+ERROR:
+    MOV DL, 0AH
+    MOV AH, 02H
+    INT 21H
+    MOV DL, 0DH
+    MOV AH, 02H
+    INT 21H
+
+    MOV DX, OFFSET STR1
+    MOV AH, 09H
+    INT 21H
+
+    MOV AH, 00H
+    INT 21H
+
+NEXT:
+    MOV AL, [SI-2]
+    CMP AL, 30H
+    JE ERROR
+    SUB AL, 30H
+    MOV AH, 00H
+    MOV BX, AX
+
+    MOV DL, 0AH
+    MOV AH, 02H
+    INT 21H
+
+    MOV DL, 0DH
+    MOV AH, 02H
+    INT 21H
+
+    MOV AX, BX
+
+NEXT1:
+    CMP BX, 0001H
+    JE NEXT2
+    DEC BX
+    MUL BX
+    CMP BX, 0001H
+    JA NEXT1
+    JMP NEXT2
+
+NEXT2:
+    MOV CX, 0
+    MOV DX, 0000H
+    MOV DI, 0AH
+
+ToTen:
+    DIV DI
+    PUSH DX
+    INC CX
+    CMP AX, 0
+    JE PRINT
+    CWD
+    JMP ToTen
+
+PRINT:
+    POP DX
+    ADD DL, 30H
+    MOV AH, 2H
+    INT 21H
+    LOOP PRINT
+
+    MOV AH, 00H
+    INT 21H
+
+END START
